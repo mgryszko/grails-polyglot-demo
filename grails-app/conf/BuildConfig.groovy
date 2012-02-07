@@ -22,7 +22,7 @@ grails.project.dependency.resolution = {
         mavenCentral()
 
         mavenCentral()
-        //mavenLocal()
+        mavenLocal()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -30,6 +30,10 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         compile 'org.clojure:clojure-contrib:1.2.0'
+
+        def scalaVersion = '2.9.1'
+        compile "org.scala-lang:scala-compiler:$scalaVersion",
+                "org.scala-lang:scala-library:$scalaVersion"
     }
 
     plugins {
