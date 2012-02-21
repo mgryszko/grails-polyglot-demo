@@ -2,15 +2,15 @@
 
 (def tag-freqs (ref {}))
 
-(defn swap-keys-merge-vals [m merge-f]
-  (loop [new-m (empty m) m m]
-    (if (empty? m)
-      new-m
-      (let [[k v] (first m)]
-        (recur (into new-m {v (if (contains? new-m v) (merge-f (new-m v) k) k)}) (next m))))))
+(defn join [sep coll]
+  (->> coll (interpose sep) (apply str)))
 
 (defn n-most-popular-tags [n]
-  (dosync (take n (reverse (sort (swap-keys-merge-vals @tag-freqs #(str %1 "," %2)))))))
+  (->> @tag-freqs
+       (sort-by second) (partition-by second) reverse
+       (map (fn [[[_ freq] :as coll]]
+              [freq (join "," (map first coll))]))
+       (take n)))
 
 (defn split-tags [tags]
   (.split tags ","))
